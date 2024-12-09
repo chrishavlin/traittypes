@@ -182,12 +182,12 @@ class DataFrame(PandasType):
 
     info_text = 'a pandas dataframe'
 
-    def __init__(self, default_value=Empty, allow_none=False, dtype=None, **kwargs):
+    def __init__(self, default_value=Empty, allow_none=False, **kwargs):
         if 'klass' not in kwargs and self.klass is None:
             import pandas as pd
             kwargs['klass'] = pd.DataFrame
         super(DataFrame, self).__init__(
-            default_value=default_value, allow_none=allow_none, dtype=dtype, **kwargs)
+            default_value=default_value, allow_none=allow_none, **kwargs)
 
 
 class Series(PandasType):
@@ -202,7 +202,7 @@ class Series(PandasType):
             import pandas as pd
             kwargs['klass'] = pd.Series
         super(Series, self).__init__(
-            default_value=default_value, allow_none=allow_none, dtype=dtype, **kwargs)
+            default_value=default_value, allow_none=allow_none,**kwargs)
         self.dtype = dtype
 
 
@@ -259,14 +259,14 @@ class Dataset(XarrayType):
 
     """An xarray dataset trait type."""
 
-    info_text = 'an xarray dataset'
+    info_text = 'an xarray dataset'    
 
-    def __init__(self, default_value=Empty, allow_none=False, dtype=None, **kwargs):
+    def __init__(self, default_value=Empty, allow_none=False,  **kwargs):
         if 'klass' not in kwargs and self.klass is None:
             import xarray as xr
             kwargs['klass'] = xr.Dataset
         super(Dataset, self).__init__(
-            default_value=default_value, allow_none=allow_none, dtype=dtype, **kwargs)
+            default_value=default_value, allow_none=allow_none, **kwargs)
 
 
 class DataArray(XarrayType):
@@ -281,5 +281,5 @@ class DataArray(XarrayType):
             import xarray as xr
             kwargs['klass'] = xr.DataArray
         super(DataArray, self).__init__(
-            default_value=default_value, allow_none=allow_none, dtype=dtype, **kwargs)
+            default_value=default_value, allow_none=allow_none, **kwargs)
         self.dtype = dtype

@@ -5,7 +5,7 @@
 # Distributed under the terms of the Modified BSD License.
 
 from unittest import TestCase
-from traitlets import HasTraits, TraitError, observe, Undefined
+from traitlets import HasTraits, TraitError, observe
 from traitlets.tests.test_traitlets import TraitTestBase
 from traittypes import Array, DataFrame, Series, Dataset, DataArray
 import numpy as np
@@ -17,12 +17,12 @@ import xarray as xr
 
 
 class IntArrayTrait(HasTraits):
-    value = Array().tag(dtype=np.int)
+    value = Array().tag(dtype=int)
 
 
 class TestIntArray(TraitTestBase):
     """
-    Test dtype validation with a ``dtype=np.int``
+    Test dtype validation with a ``dtype=int``
     """
     obj = IntArrayTrait()
 
@@ -53,16 +53,15 @@ class TestArray(TestCase):
     def test_initial_values(self):
         class Foo(HasTraits):
             a = Array()
-            b = Array(dtype='int')
+            b = Array().tag(dtype='int')
             c = Array(None, allow_none=True)
-            d = Array([])
-            e = Array(Undefined)
-        foo = Foo()
+            d = Array([])            
+        foo = Foo()    
         self.assertTrue(np.array_equal(foo.a, np.array(0)))
-        self.assertTrue(np.array_equal(foo.b, np.array(0)))
+        self.assertTrue(np.array_equal(foo.b, np.array(0)))        
         self.assertTrue(foo.c is None)
         self.assertTrue(np.array_equal(foo.d, []))
-        self.assertTrue(foo.e is Undefined)
+        
 
     def test_allow_none(self):
         class Foo(HasTraits):
@@ -126,13 +125,11 @@ class TestDataFrame(TestCase):
         class Foo(HasTraits):
             a = DataFrame()
             b = DataFrame(None, allow_none=True)
-            c = DataFrame([])
-            d = DataFrame(Undefined)
+            c = DataFrame([])            
         foo = Foo()
         self.assertTrue(foo.a.equals(pd.DataFrame()))
         self.assertTrue(foo.b is None)
-        self.assertTrue(foo.c.equals(pd.DataFrame([])))
-        self.assertTrue(foo.d is Undefined)
+        self.assertTrue(foo.c.equals(pd.DataFrame([])))        
 
     def test_allow_none(self):
         class Foo(HasTraits):
@@ -163,13 +160,11 @@ class TestSeries(TestCase):
         class Foo(HasTraits):
             a = Series()
             b = Series(None, allow_none=True)
-            c = Series([])
-            d = Series(Undefined)
+            c = Series([])            
         foo = Foo()
         self.assertTrue(foo.a.equals(pd.Series()))
         self.assertTrue(foo.b is None)
-        self.assertTrue(foo.c.equals(pd.Series([])))
-        self.assertTrue(foo.d is Undefined)
+        self.assertTrue(foo.c.equals(pd.Series([])))        
 
     def test_allow_none(self):
         class Foo(HasTraits):
@@ -199,12 +194,10 @@ class TestDataset(TestCase):
     def test_initial_values(self):
         class Foo(HasTraits):
             a = Dataset()
-            b = Dataset(None, allow_none=True)
-            d = Dataset(Undefined)
+            b = Dataset(None, allow_none=True)            
         foo = Foo()
         self.assertTrue(foo.a.equals(xr.Dataset()))
-        self.assertTrue(foo.b is None)
-        self.assertTrue(foo.d is Undefined)
+        self.assertTrue(foo.b is None)        
 
     def test_allow_none(self):
         class Foo(HasTraits):
@@ -234,9 +227,7 @@ class TestDataArray(TestCase):
     def test_initial_values(self):
         class Foo(HasTraits):
             b = DataArray(None, allow_none=True)
-            c = DataArray([])
-            d = DataArray(Undefined)
+            c = DataArray([])            
         foo = Foo()
         self.assertTrue(foo.b is None)
-        self.assertTrue(foo.c.equals(xr.DataArray([])))
-        self.assertTrue(foo.d is Undefined)
+        self.assertTrue(foo.c.equals(xr.DataArray([])))        
